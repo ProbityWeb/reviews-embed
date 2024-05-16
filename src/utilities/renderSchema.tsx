@@ -5,6 +5,7 @@ import { ReviewAPIData } from "../utilities/types";
 export default function renderSchema(data: ReviewAPIData) {
   let reviewsSchema = document.createElement("script");
   reviewsSchema.type = "application/ld+json";
+
   let reviewsSchemaArray = data.reviews.map((review: any) => {
     return {
       "@type": "Review",
@@ -23,16 +24,21 @@ export default function renderSchema(data: ReviewAPIData) {
     };
   });
 
-  reviewsSchema.text = JSON.stringify({
+  let productSchema = {
     "@context": "https://schema.org",
+    "@type": "Product",
+    name: data.organisationName,
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: data.averageRating,
       reviewCount: data.totalReviewCount,
+      bestRating: "5",
+      worstRating: "1",
     },
-    name: "Business Name",
-    "@type": "Product",
     review: reviewsSchemaArray,
-  });
+  };
+
+  reviewsSchema.text = JSON.stringify(productSchema);
+
   document.querySelector("body")!.appendChild(reviewsSchema);
 }

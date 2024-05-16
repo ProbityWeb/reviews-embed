@@ -173,6 +173,7 @@ export type TemplateVariableEdge = {
 export type PageInfo = {};
 
 export type ReviewAPIData = {
+  organisationName: string;
   locationUrl: string;
   newReviewUrl: string;
   totalReviewCount: number;
